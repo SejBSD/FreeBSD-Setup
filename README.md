@@ -15,3 +15,14 @@ cd FreeBSD-Setup
 
 sh ./FreeBSD-Setup.sh
 ```
+
+## Test vm setup
+
+Below pictures shows how I've setup my test vm.
+
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/1.png)
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/2.png)
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/3.png)
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/4.png)
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/5.png)
+![](https://raw.githubusercontent.com/Sejoslaw/FreeBSD-Setup/main/Photos/6.png)
