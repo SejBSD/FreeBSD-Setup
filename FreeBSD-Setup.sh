@@ -19,6 +19,7 @@ _bootloaderConfFilePath=/boot/loader.conf
 _etcRcConfFilePath=/etc/rc.conf
 _videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
 _etcFsbatFilePath=/etc/fstab
+_etcDevfsRulesFilePath=/etc/devfs.rules
 
 echo ""
 echo "################################################################"
@@ -220,4 +221,86 @@ then
     echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcRcConfFilePath
     echo "gnome_enable=\"YES\"" >> $_etcRcConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+else fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##                    Setting up Tools...                     ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Install core tools (nano, htop, neofetch)? (yes/no): " _shouldInstallCoreTools;
+
+if [ "$_shouldInstallCoreTools" = "yes" ]
+then
+    pkg install nano htop neofetch -y
+else fi
+
+if [ "$_desktopEnv" = "gnome-shell" || "$_desktopEnv" = "gnome" ]
+then
+    read -p "Install terminal and file manager? (yes/no): " _shouldInstallGnomeCoreTools;
+
+    if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
+        pkg install gnome-terminal nautilus -y
+    then
+    else fi
+else fi
+
+read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, baobab, inkscape, chromium)? (yes/no): " _shouldInstallCommonTools;
+
+if [ "$_shouldInstallCommonTools" = "yes" ]
+then
+    pkg install vscode flameshot wifimgr dconf-editor baobab inkscape chromium -y
+else fi
+
+read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
+
+if [ "$_shouldInstallVBox" = "yes" ]
+then
+    pkg install virtualbox-ose virtualbox-ose-additions -y
+
+    echo "" >> $_bootloaderConfFilePath
+    echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_bootloaderConfFilePath
+    echo "vboxdrv_load=\"YES\"" >> $_bootloaderConfFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_bootloaderConfFilePath
+
+    echo "" >> $_etcRcConfFilePath
+    echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_etcRcConfFilePath
+    echo "vboxnet_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "devfs_system_ruleset=\"system"\" >> $_etcRcConfFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+
+    read -p "Specify user who can access VirtualBox: " _vboxAccessUserName;
+
+    pw groupmod vboxusers -m $_vboxAccessUserName
+    pw groupmod operator -m $_vboxAccessUserName
+
+    echo "" >> $_etcDevfsRulesFilePath
+    echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_etcDevfsRulesFilePath
+    echo "[system=10]" >> $_etcDevfsRulesFilePath
+    echo "add path 'usb/*' mode 0660 group operator" >> $_etcDevfsRulesFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_etcDevfsRulesFilePath
+else fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##               Setting up 3rd Party Tools...                ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Install Google Chrome (based on Linux Binary Compatibility)? (yes/no): " _shouldInstallChrome;
+
+if [ "$_shouldInstallChrome" = "yes" ]
+then
+    git clone https://github.com/mrclksr/linux-browser-installer.git
+
+    cd linux-browser-installer
+
+    ./linux-browser-installer install chrome
+    ./linux-browser-installer symlink icons
+    ./linux-browser-installer symlink themes
 else fi
