@@ -1,21 +1,24 @@
-########################################################################
-# Source: https://github.com/Sejoslaw/FreeBSD-Setup
-#
-#
-# FreeBSD Configuration Script by Krzysztof "Sejoslaw" Dobrzynski
-#
-#
-# Current script will allows you to setup: 
-#   - basic graphical environment (GNOME, KDE, XFCE) - core or full
-#   - common services
-#   - core tools (console + graphical)
-#   - optional tools (music, video, web browser, etc.)
-########################################################################
+##############################################################################
+##  Source: https://github.com/Sejoslaw/FreeBSD-Setup
+##
+##
+##  FreeBSD Configuration Script by Krzysztof "Sejoslaw" Dobrzynski
+##
+##
+##  Current script will allows you to setup: 
+##      - basic graphical environment (GNOME, KDE, XFCE) - core or full
+##      - common services
+##      - core tools (console + graphical)
+##      - optional tools (music, video, web browser, etc.)
+##############################################################################
 
+# Core / Static variables
 
-# 3. Setup sudo / wheel (sudoers file)
-# 4. Install Xorg
-# 5. Install DE
+_sudoersFilePath=/usr/local/etc/sudoers
+_bootloaderConfFilePath=/boot/loader.conf
+_etcRcConfFilePath=/etc/rc.conf
+_videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
+_etcFsbatFilePath=/etc/fstab
 
 echo ""
 echo "################################################################"
@@ -62,8 +65,6 @@ echo ""
 
 pkg install sudo -y
 
-_sudoersFilePath=/usr/local/etc/sudoers
-
 echo "" >> $_sudoersFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up sudo...\" phase)" >> $_sudoersFilePath
 
@@ -98,8 +99,6 @@ then
     pw groupmod video -m $_username
 else fi
 
-_bootloaderConfFilePath=/boot/loader.conf
-
 echo "" >> $_bootloaderConfFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up Xorg...\" phase)" >> $_bootloaderConfFilePath
 echo "kern.vty=vt" >> $_bootloaderConfFilePath
@@ -125,13 +124,13 @@ read -p "Which one: " _videoDriver;
 
 if ["$_videoDriver" = "nvidia"]
     echo "nVidia is currently not yet supported, sorry" # TODO: Add support for nVidia (nvidia-driver, etc.)
+
     sleep 3
 then
 else
     pkg install drm-kmod -y
 
-    _etcRcConfFilePath=/etc/rc.conf
-
+    echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (\"$_videoDriver\" video card driver)" >> $_etcRcConfFilePath
 
     sysrc -f $_etcRcConfFilePath kld_list+=$_videoDriver
@@ -144,12 +143,10 @@ else
     else fi
 fi
 
-read -p "Setup video driver in file? (yes/no): " _shouldSetupVideoDriverFile;
+read -p "Setup video driver in file (use \"no\" for VM)? (yes/no): " _shouldSetupVideoDriverFile;
 
 if [ "$_shouldSetupVideoDriverFile" = "yes" ]
 then
-    _videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
-
     echo "Choose driver to setup (intel/radeon/vesa/scfb)."
     echo "This will create a file in \"$_videoDriverFileDir\"."
 
@@ -167,3 +164,60 @@ then
     echo "# End Added by FreeBSD-Setup script" >> $_videoDriverFilePath
 else fi
 
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##               Setting up Display Manager...                ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+echo "Currently there are a couple of supported Display Managers:"
+echo "  - gdm -> GNOME Display Manager"
+echo "  - sddm -> Simple Desktop Display Manager"
+echo "  - slim -> Simple Login Manager"
+
+read -p "Which one: " _displayManager;
+
+pkg install $_displayManager -y
+
+echo "" >> $_etcRcConfFilePath
+echo "# Added by FreeBSD-Setup script (\"Setting up Display Manager...\" phase)" >> $_etcRcConfFilePath
+
+echo "dbus_enable=\"YES\"" >> $_etcRcConfFilePath
+echo "hald_enable=\"YES\"" >> $_etcRcConfFilePath
+echo "${_displayManager}_enable=\"YES\"" >> $_etcRcConfFilePath
+
+echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##             Setting up Desktop Environment...              ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+echo "Currently there are a couple of supported Desktop Environments:"
+echo "  - gnome-shell -> Core GNOME components"
+echo "  - gnome -> Full GNOME environment"
+echo "  - plasma5-plasma -> Core KDE components"
+echo "  - kde5 -> Full KDE environment"
+echo "  - xfce -> XFCE environment"
+
+read -p "Which one: " _desktopEnv;
+
+pkg install $_desktopEnv -y
+
+echo ""
+echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFsbatFilePath
+echo "proc           /proc       procfs  rw  0   0" >> $_etcFsbatFilePath
+echo "# End Added by FreeBSD-Setup script" >> $_etcFsbatFilePath
+
+if [ "$_desktopEnv" = "gnome-shell" || "$_desktopEnv" = "gnome" ]
+then
+    echo "" >> $_etcRcConfFilePath
+    echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcRcConfFilePath
+    echo "gnome_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+else fi
