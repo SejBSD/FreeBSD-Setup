@@ -320,15 +320,15 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-read -p "Install Google Chrome (based on Linux Binary Compatibility)? (yes/no): " _shouldInstallChrome;
+read -p "Install web browser (based on Linux Binary Compatibility) (chrome/brave/vivaldi/edge/opera - or - blank for none)? " _webBrowserName;
 
-if [ "$_shouldInstallChrome" = "yes" ]
+if [ "$_webBrowserName" != "" ]
 then
     git clone https://github.com/mrclksr/linux-browser-installer.git
 
     cd linux-browser-installer
 
-    ./linux-browser-installer install chrome
+    ./linux-browser-installer install $_webBrowserName
     ./linux-browser-installer symlink icons
     ./linux-browser-installer symlink themes
 else fi
