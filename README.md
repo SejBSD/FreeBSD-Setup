@@ -16,6 +16,14 @@ cd FreeBSD-Setup
 sh ./FreeBSD-Setup.sh
 ```
 
+Or if you want a default FreeBSD experience just do:
+
+```
+pkg install desktop-installer
+
+desktop-installer
+```
+
 ## Test vm setup
 
 Below pictures shows how I've setup my test vm.
