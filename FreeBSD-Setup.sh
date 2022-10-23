@@ -64,7 +64,7 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-pkg install sudo -y
+pkg install sudo
 
 echo "" >> $_sudoersFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up sudo...\" phase)" >> $_sudoersFilePath
@@ -91,7 +91,7 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-pkg install xorg -y
+pkg install xorg
 
 read -p "Setup xorg for (username - or - blank for none/skip): " _username;
 
@@ -129,7 +129,7 @@ then
 
     sleep 3
 else
-    pkg install drm-kmod -y
+    pkg install drm-kmod
 
     echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (\"$_videoDriver\" video card driver)" >> $_etcRcConfFilePath
@@ -140,7 +140,7 @@ else
 
     if [ "$_shouldInstallLegacyIntelDriver" = "yes" ]
     then
-        pkg install xf86-video-intel -y
+        pkg install xf86-video-intel
     else fi
 fi
 
@@ -180,7 +180,7 @@ echo "  - slim -> Simple Login Manager"
 
 read -p "Which one: " _displayManager;
 
-pkg install $_displayManager -y
+pkg install $_displayManager
 
 echo "" >> $_etcRcConfFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up Display Manager...\" phase)" >> $_etcRcConfFilePath
@@ -208,7 +208,7 @@ echo "  - xfce -> XFCE environment"
 
 read -p "Which one: " _desktopEnv;
 
-pkg install $_desktopEnv -y
+pkg install $_desktopEnv
 
 echo ""
 echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFsbatFilePath
@@ -251,7 +251,7 @@ read -p "Install core tools (nano, htop, neofetch)? (yes/no): " _shouldInstallCo
 
 if [ "$_shouldInstallCoreTools" = "yes" ]
 then
-    pkg install nano htop neofetch -y
+    pkg install nano htop neofetch
 
     read -p "Enable neofetch on terminal open in \".shrc\" file? (username - or - blank for none): " _enableNeofetchUsername;
 
@@ -271,7 +271,7 @@ then
     read -p "Install terminal and file manager? (yes/no): " _shouldInstallGnomeCoreTools;
 
     if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
-        pkg install gnome-terminal nautilus -y
+        pkg install gnome-terminal nautilus
     then
     else fi
 else fi
@@ -280,14 +280,14 @@ read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, baobab,
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
-    pkg install vscode flameshot wifimgr dconf-editor baobab inkscape chromium -y
+    pkg install vscode flameshot wifimgr dconf-editor baobab inkscape chromium
 else fi
 
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
 
 if [ "$_shouldInstallVBox" = "yes" ]
 then
-    pkg install virtualbox-ose virtualbox-ose-additions -y
+    pkg install virtualbox-ose virtualbox-ose-additions
 
     echo "" >> $_bootloaderConfFilePath
     echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_bootloaderConfFilePath
