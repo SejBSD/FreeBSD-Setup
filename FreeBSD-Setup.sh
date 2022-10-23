@@ -124,10 +124,10 @@ echo "  - nvidia -> nVidia - do not use yet" # TODO: Add support for nVidia (nvi
 read -p "Which one: " _videoDriver;
 
 if [ "$_videoDriver" = "nvidia" ]
+then
     echo "nVidia is currently not yet supported, sorry" # TODO: Add support for nVidia (nvidia-driver, etc.)
 
     sleep 3
-then
 else
     pkg install drm-kmod -y
 
