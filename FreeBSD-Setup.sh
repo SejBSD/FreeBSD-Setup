@@ -266,14 +266,11 @@ then
     else fi
 else fi
 
-if [ "$_desktopEnv" = "gnome-shell" || "$_desktopEnv" = "gnome" ]
-then
-    read -p "Install terminal and file manager? (yes/no): " _shouldInstallGnomeCoreTools;
+read -p "Install terminal and file manager (GNOME)? (yes/no): " _shouldInstallGnomeCoreTools;
 
-    if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
-        pkg install gnome-terminal nautilus
-    then
-    else fi
+if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
+    pkg install gnome-terminal nautilus
+then
 else fi
 
 read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, baobab, inkscape, chromium)? (yes/no): " _shouldInstallCommonTools;
