@@ -119,7 +119,7 @@ echo "  - radeonkms -> Older Radeon KMS Driver"
 echo "  - amdgpu -> Newer AMD KMS Driver"
 echo "  - intel -> Intel graphics up to Ivy Bridge (HD Graphics 2500, 4000, and P4000), Iron Lake (HD Graphics), Sandy Bridge (HD Graphics 2000)"
 echo "  - radeon -> Radeon cards up to and including the HD6000 series"
-echo "  - nvidia -> nVidia [W.I.P.] - do not use yet" # TODO: Add support for nVidia (nvidia-driver, etc.)
+echo "  - nvidia -> nVidia - do not use yet" # TODO: Add support for nVidia (nvidia-driver, etc.)
 
 read -p "Which one: " _videoDriver;
 
