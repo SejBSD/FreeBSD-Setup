@@ -226,6 +226,22 @@ else fi
 echo ""
 echo "################################################################"
 echo "##                                                            ##"
+echo "##                    Setting up Wi-Fi...                     ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+echo "" >> $_etcRcConfFilePath
+echo "# Added by FreeBSD-Setup script (\"Setting up Wi-Fi...\" phase)" >> $_etcRcConfFilePath
+
+echo "wlans_iwm0=\"wlan0\"" >> $_etcRcConfFilePath
+echo "ifconfig_wlan0=\"WPA DHCP\"" >> $_etcRcConfFilePath
+
+echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
 echo "##                    Setting up Tools...                     ##"
 echo "##                                                            ##"
 echo "################################################################"
