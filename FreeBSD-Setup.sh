@@ -252,6 +252,18 @@ read -p "Install core tools (nano, htop, neofetch)? (yes/no): " _shouldInstallCo
 if [ "$_shouldInstallCoreTools" = "yes" ]
 then
     pkg install nano htop neofetch -y
+
+    read -p "Enable neofetch on terminal open in \".shrc\" file? (username - or - blank for none): " _enableNeofetchUsername;
+
+    if [ "$_enableNeofetchUsername" != "" ]
+    then
+        _shrcFilePath=/home/$_enableNeofetchUsername/.shrc
+
+        echo "" >> $_shrcFilePath
+        echo "# Added by FreeBSD-Setup script (Enable Neofetch on terminal open)" >> $_shrcFilePath
+        echo "neofetch" >> $_shrcFilePath
+        echo "# End Added by FreeBSD-Setup script" >> $_shrcFilePath
+    else fi
 else fi
 
 if [ "$_desktopEnv" = "gnome-shell" || "$_desktopEnv" = "gnome" ]
@@ -319,4 +331,51 @@ then
     ./linux-browser-installer install chrome
     ./linux-browser-installer symlink icons
     ./linux-browser-installer symlink themes
+else fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##                  Setting up Quick Boot...                  ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Enable quick boot / mute boot? (yes/no): " _shouldEnableQuickBoot;
+
+if [ "$_shouldEnableQuickBoot" = "yes" ]
+then
+    echo "" >> $_bootloaderConfFilePath
+    echo "# Added by FreeBSD-Setup script (\"Setting up Quick Boot...\" phase)" >> $_bootloaderConfFilePath
+    echo "autoboot_delay=\"0\"" >> $_bootloaderConfFilePath
+    echo "boot_mute=\"YES\"" >> $_bootloaderConfFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_bootloaderConfFilePath
+else fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##                 Setting up Screen Saver...                 ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Disable screen saver? (yes/no): " _shouldDisableScreenSaver;
+
+if [ "$_shouldDisableScreenSaver" = "yes" ]
+then
+    read -p "User for whom to disable (username - or - blank for none): " _disableScreenSaverUsername;
+
+    if [ "$_disableScreenSaverUsername" != "" ]
+    then
+        _xprofileFilePath=/home/$_disableScreenSaverUsername/.xprofile
+
+        echo "" >> $_xprofileFilePath
+        echo "# Added by FreeBSD-Setup script (\"Setting up Screen Saver...\" phase)" >> $_xprofileFilePath
+        echo "xset s 0" >> $_xprofileFilePath
+        echo "xset s off" >> $_xprofileFilePath
+        echo "xset s noexpose" >> $_xprofileFilePath
+        echo "xset s noblank" >> $_xprofileFilePath
+        echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
+    else fi
 else fi
