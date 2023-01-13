@@ -1,0 +1,24 @@
+{
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8",
+            "path": "/usr/local/openjdk8"
+        },
+        {
+            "name": "JavaSE-11",
+            "path": "/usr/local/openjdk11"
+        },
+        {
+            "name": "JavaSE-17",
+            "path": "/usr/local/openjdk17"
+        },
+        {
+            "name": "JavaSE-18",
+            "path": "/usr/local/openjdk18"
+        },
+        {
+            "name": "JavaSE-19",
+            "path": "/usr/local/openjdk19"
+        }
+    ]
+}

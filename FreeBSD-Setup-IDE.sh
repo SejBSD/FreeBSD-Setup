@@ -43,7 +43,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java): " _language;
+read -p "Choose language (shell, java, rust): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -55,7 +55,7 @@ then
     echo "################################################################"
     echo ""
 
-    read -p "Choose IDE (vscode, emacs): " _ide;
+    read -p "Choose IDE (vscode): " _ide;
 
     install_ide $_ide
 
@@ -110,13 +110,48 @@ then
     fi
 fi
 
+if [ "$_language" = "rust" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                      Setting up Rust...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    read -p "Setup rustup? (yes/no) " _setupRustup;
+
+    if [ "$_setupRustup" = "yes" ]
+    then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    fi
+
+    echo ""
+    echo "## You may need to logout for rust toolchain binaries to be found ##"
+    echo ""
+    sleep 7
+
+    read -p "Choose IDE (vscode, intellij): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension rust-lang.rust-analyzer              # https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer
+        vscode --install-extension swellaby.vscode-rust-test-adapter    # https://marketplace.visualstudio.com/items?itemName=swellaby.vscode-rust-test-adapter
+        vscode --install-extension serayuzgur.crates                    # https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates
+        vscode --install-extension panicbit.cargo                       # https://marketplace.visualstudio.com/items?itemName=panicbit.cargo
+    fi
+fi
+
 # TODO: C/C++
 
 # TODO: C# ?
 
 # TODO: Python
-
-# TODO: Rust
 
 # TODO: Go
 
