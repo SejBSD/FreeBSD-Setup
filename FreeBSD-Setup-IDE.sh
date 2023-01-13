@@ -47,7 +47,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust): " _language;
+read -p "Choose language (shell, java, rust, sql): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -160,6 +160,40 @@ then
     sleep 7
 fi
 
+if [ "$_language" = "sql" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                      Setting up SQL...                     ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    read -p "Choose IDE (vscode): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension ms-mssql.mssql                           # https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql
+        vscode --install-extension formulahendry.vscode-mysql               # https://marketplace.visualstudio.com/items?itemName=formulahendry.vscode-mysql
+        vscode --install-extension alexcvzz.vscode-sqlite                   # https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
+        vscode --install-extension ms-ossdata.vscode-postgresql             # https://marketplace.visualstudio.com/items?itemName=ms-ossdata.vscode-postgresql
+
+        vscode --install-extension mtxr.sqltools                            # https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools
+        vscode --install-extension mtxr.sqltools-driver-mysql               # https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools-driver-mysql
+        vscode --install-extension mtxr.sqltools-driver-pg                  # https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools-driver-pg
+        vscode --install-extension mtxr.sqltools-driver-sqlite              # https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools-driver-sqlite
+        vscode --install-extension mtxr.sqltools-driver-mssql               # https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools-driver-mssql
+        vscode --install-extension koszti.snowflake-driver-for-sqltools     # https://marketplace.visualstudio.com/items?itemName=koszti.snowflake-driver-for-sqltools
+        vscode --install-extension databricks.sqltools-databricks-driver    # https://marketplace.visualstudio.com/items?itemName=databricks.sqltools-databricks-driver
+        vscode --install-extension JordanHury.sqltools-cassandra            # https://marketplace.visualstudio.com/items?itemName=JordanHury.sqltools-cassandra
+    fi
+fi
+
 # TODO: C/C++
 
 # TODO: C# ?
@@ -168,6 +202,6 @@ fi
 
 # TODO: Go
 
-# TODO: SQL
-
 # TODO: Perl
+
+# TODO: Lua
