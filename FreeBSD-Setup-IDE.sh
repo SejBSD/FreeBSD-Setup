@@ -145,6 +145,11 @@ then
         vscode --install-extension serayuzgur.crates                    # https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates
         vscode --install-extension panicbit.cargo                       # https://marketplace.visualstudio.com/items?itemName=panicbit.cargo
     fi
+
+    echo ""
+    echo "## Run in empty project directory: cargo init ##"
+    echo ""
+    sleep 7
 fi
 
 # TODO: C/C++
