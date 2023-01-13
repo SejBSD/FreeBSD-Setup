@@ -269,15 +269,29 @@ else fi
 read -p "Install terminal and file manager (GNOME)? (yes/no): " _shouldInstallGnomeCoreTools;
 
 if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
-    pkg install gnome-terminal nautilus
 then
+    pkg install gnome-terminal nautilus
 else fi
 
-read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, baobab, inkscape, chromium)? (yes/no): " _shouldInstallCommonTools;
+read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
-    pkg install vscode flameshot wifimgr dconf-editor baobab inkscape chromium
+    pkg install vscode flameshot wifimgr dconf-editor inkscape
+else fi
+
+read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser;
+
+if [ "$_webBrowser" != "" ]
+then
+    pkg install _webBrowser
+else fi
+
+read -p "Install baobab (GNOME) (disk usage scanner)? (yes/no): " _shouldInstallBaobab;
+
+if [ "$_shouldInstallBaobab" = "yes" ]
+then
+    pkg install baobab
 else fi
 
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
