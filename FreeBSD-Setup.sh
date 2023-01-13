@@ -284,7 +284,7 @@ read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser
 
 if [ "$_webBrowser" != "" ]
 then
-    pkg install _webBrowser
+    pkg install $_webBrowser
 else fi
 
 read -p "Install baobab (GNOME) (disk usage scanner)? (yes/no): " _shouldInstallBaobab;
@@ -308,6 +308,8 @@ then
     echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_etcRcConfFilePath
     echo "vboxnet_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "vboxguest_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "vboxservice_enable=\"YES\"" >> $_etcRcConfFilePath
     echo "devfs_system_ruleset=\"system"\" >> $_etcRcConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
 
