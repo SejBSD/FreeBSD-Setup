@@ -1,5 +1,9 @@
 #!/bin/sh
 
+install_llvm() {
+    sudo pkg install llvm
+}
+
 install_ide() {
     if [ "$0" != "" ]
     then
@@ -120,6 +124,8 @@ then
     echo "################################################################"
     echo ""
 
+    install_llvm
+
     read -p "Setup rustup? (yes/no) " _setupRustup;
 
     if [ "$_setupRustup" = "yes" ]
@@ -144,6 +150,8 @@ then
         vscode --install-extension swellaby.vscode-rust-test-adapter    # https://marketplace.visualstudio.com/items?itemName=swellaby.vscode-rust-test-adapter
         vscode --install-extension serayuzgur.crates                    # https://marketplace.visualstudio.com/items?itemName=serayuzgur.crates
         vscode --install-extension panicbit.cargo                       # https://marketplace.visualstudio.com/items?itemName=panicbit.cargo
+        vscode --install-extension better-toml                          # https://marketplace.visualstudio.com/items?itemName=bungcip.better-toml
+        vscode --install-extension vadimcn.vscode-lldb                  # https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb
     fi
 
     echo ""
