@@ -327,3 +327,15 @@ fi
 # TODO: Lua
 
 # TODO: Ruby
+
+# TODO: Angular
+
+# TODO: React
+
+# TODO: ReactRedux
+
+# TODO: Vue
+
+# TODO: Ember - front
+
+# TODO: Foundation Framework - front
