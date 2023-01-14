@@ -21,19 +21,20 @@ install_ide() {
 }
 
 install_common_vscode_extensions() {
-    vscode --install-extension mhutchie.git-graph               # https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph
-    vscode --install-extension eamodio.gitlens                  # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-    vscode --install-extension formulahendry.auto-close-tag     # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
-    vscode --install-extension formulahendry.auto-rename-tag    # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag
-    vscode --install-extension formulahendry.code-runner        # https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-    vscode --install-extension GrapeCity.gc-excelviewer         # https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer
-    vscode --install-extension esbenp.prettier-vscode           # https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-    vscode --install-extension mechatroner.rainbow-csv          # https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv
-    vscode --install-extension Gruntfuggly.todo-tree            # https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
-    vscode --install-extension wayou.vscode-todo-highlight      # https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight
-    vscode --install-extension redhat.vscode-xml                # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml
-    vscode --install-extension redhat.vscode-yaml               # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
-    vscode --install-extension 2gua.rainbow-brackets            # https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets
+    vscode --install-extension mhutchie.git-graph                       # https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph
+    vscode --install-extension eamodio.gitlens                          # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
+    vscode --install-extension formulahendry.auto-close-tag             # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
+    vscode --install-extension formulahendry.auto-rename-tag            # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag
+    vscode --install-extension formulahendry.code-runner                # https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
+    vscode --install-extension GrapeCity.gc-excelviewer                 # https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer
+    vscode --install-extension esbenp.prettier-vscode                   # https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+    vscode --install-extension mechatroner.rainbow-csv                  # https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv
+    vscode --install-extension Gruntfuggly.todo-tree                    # https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
+    vscode --install-extension wayou.vscode-todo-highlight              # https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight
+    vscode --install-extension redhat.vscode-xml                        # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml
+    vscode --install-extension redhat.vscode-yaml                       # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
+    vscode --install-extension 2gua.rainbow-brackets                    # https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets
+    vscode --install-extension VisualStudioExptTeam.vscodeintellicode   # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
 }
 
 echo ""
@@ -56,7 +57,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -236,9 +237,41 @@ then
     install_gcc
 fi
 
-# TODO: C# ?
+if [ "$_language" = "python" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                    Setting up Python...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
 
-# TODO: Python
+    sudo pkg install python py39-pip
+
+    read -p "Choose IDE (vscode, pycharm-ce, pycharm-pro, spyder, py-spyder, eric6-qt5-py39, eclipse-pydev): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "spyder" ] || [ "$_ide" = "py-spyder" ]
+    then
+        sudo pkg install py39-docstring-to-markdown
+    fi
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension ms-python.python                         # https://marketplace.visualstudio.com/items?itemName=ms-python.python
+        vscode --install-extension batisteo.vscode-django                   # https://marketplace.visualstudio.com/items?itemName=batisteo.vscode-django
+        vscode --install-extension wholroyd.jinja                           # https://marketplace.visualstudio.com/items?itemName=wholroyd.jinja
+        vscode --install-extension njpwerner.autodocstring                  # https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring
+        vscode --install-extension KevinRose.vsc-python-indent              # https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent
+        vscode --install-extension donjayamanne.python-environment-manager  # https://marketplace.visualstudio.com/items?itemName=donjayamanne.python-environment-manager
+    fi
+fi
+
+# TODO: C# ?
 
 # TODO: Go
 
