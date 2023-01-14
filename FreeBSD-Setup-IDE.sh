@@ -404,8 +404,6 @@ then
     fi
 fi
 
-# TODO: ReactRedux
-
 # TODO: Vue
 
 # TODO: Perl
