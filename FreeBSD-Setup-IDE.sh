@@ -4,6 +4,10 @@ install_llvm() {
     sudo pkg install llvm
 }
 
+install_npm() {
+    sudo pkg install npm
+}
+
 install_gcc() {
     read -p "Do you want to install gcc? (yes/no) " _installGcc;
 
@@ -35,6 +39,18 @@ install_common_vscode_extensions() {
     vscode --install-extension redhat.vscode-yaml                       # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
     vscode --install-extension 2gua.rainbow-brackets                    # https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets
     vscode --install-extension VisualStudioExptTeam.vscodeintellicode   # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
+    vscode --install-extension christian-kohler.path-intellisense       # https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
+}
+
+install_common_vscode_npm_extensions() {
+    vscode --install-extension dbaeumer.vscode-eslint               # https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+    vscode --install-extension eg2.vscode-npm-script                # https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script
+    vscode --install-extension rbbit.typescript-hero                # https://marketplace.visualstudio.com/items?itemName=rbbit.typescript-hero
+    vscode --install-extension pmneo.tsimporter                     # https://marketplace.visualstudio.com/items?itemName=pmneo.tsimporter
+    vscode --install-extension Wscats.eno                           # https://marketplace.visualstudio.com/items?itemName=Wscats.eno
+    vscode --install-extension christian-kohler.npm-intellisense    # https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense
+    vscode --install-extension Orta.vscode-jest                     # https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest
+    vscode --install-extension leizongmin.node-module-intellisense  # https://marketplace.visualstudio.com/items?itemName=leizongmin.node-module-intellisense
 }
 
 echo ""
@@ -57,7 +73,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -322,13 +338,39 @@ then
     fi
 fi
 
+if [ "$_language" = "angular" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                    Setting up Angular...                   ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    install_npm
+    sudo npm install -g @angular/cli
+
+    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+        install_common_vscode_npm_extensions
+
+        vscode --install-extension Angular.ng-template              # https://marketplace.visualstudio.com/items?itemName=Angular.ng-template
+        vscode --install-extension cyrilletuzi.angular-schematics   # https://marketplace.visualstudio.com/items?itemName=cyrilletuzi.angular-schematics
+        vscode --install-extension segerdekort.angular-cli          # https://marketplace.visualstudio.com/items?itemName=segerdekort.angular-cli
+    fi
+fi
+
 # TODO: Perl
 
 # TODO: Lua
 
 # TODO: Ruby
-
-# TODO: Angular
 
 # TODO: React
 
