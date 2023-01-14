@@ -4,6 +4,15 @@ install_llvm() {
     sudo pkg install llvm
 }
 
+install_gcc() {
+    read -p "Do you want to install gcc? (yes/no) " _installGcc;
+
+    if [ "$_installGcc" = "yes" ]
+    then
+        sudo pkg install gcc
+    fi
+}
+
 install_ide() {
     if [ "$0" != "" ]
     then
@@ -47,7 +56,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -195,7 +204,37 @@ then
     fi
 fi
 
-# TODO: C/C++
+if [ "$_language" = "cpp" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                     Setting up C/C++...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    install_llvm
+
+    read -p "Choose IDE (vscode, codeblocks, anjuta, upp (TheIDE), eclipse-cdt, kdevelop, qtcreator, jucipp, jetbrains-clion): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension llvm-vs-code-extensions.vscode-clangd    # https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd
+        vscode --install-extension ms-vscode.cmake-tools                    # https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools
+        vscode --install-extension webfreak.debug                           # https://marketplace.visualstudio.com/items?itemName=webfreak.debug
+        vscode --install-extension danielpinto8zz6.c-cpp-project-generator  # https://marketplace.visualstudio.com/items?itemName=danielpinto8zz6.c-cpp-project-generator
+        vscode --install-extension cschlosser.doxdocgen                     # https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen
+        vscode --install-extension ms-vscode.makefile-tools                 # https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools
+        vscode --install-extension austin.code-gnu-global                   # https://marketplace.visualstudio.com/items?itemName=austin.code-gnu-global
+    fi
+
+    install_gcc
+fi
 
 # TODO: C# ?
 
