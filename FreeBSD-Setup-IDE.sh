@@ -152,6 +152,7 @@ then
         vscode --install-extension panicbit.cargo                       # https://marketplace.visualstudio.com/items?itemName=panicbit.cargo
         vscode --install-extension better-toml                          # https://marketplace.visualstudio.com/items?itemName=bungcip.better-toml
         vscode --install-extension vadimcn.vscode-lldb                  # https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb
+        vscode --install-extension webfreak.debug                       # https://marketplace.visualstudio.com/items?itemName=webfreak.debug
     fi
 
     echo ""
@@ -205,3 +206,5 @@ fi
 # TODO: Perl
 
 # TODO: Lua
+
+# TODO: Ruby
