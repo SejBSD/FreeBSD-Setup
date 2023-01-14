@@ -57,7 +57,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -295,7 +295,32 @@ then
     fi
 fi
 
-# TODO: C# ?
+if [ "$_language" = "dotnet-mono" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                    Setting up C# Mono...                   ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    sudo pkg install mono msbuild
+
+    read -p "Choose IDE (vscode): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension ms-dotnettools.csharp        # https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
+        vscode --install-extension k--kato.docomment            # https://marketplace.visualstudio.com/items?itemName=k--kato.docomment
+        vscode --install-extension Fudge.auto-using             # https://marketplace.visualstudio.com/items?itemName=Fudge.auto-using
+        vscode --install-extension adrianwilczynski.namespace   # https://marketplace.visualstudio.com/items?itemName=adrianwilczynski.namespace
+    fi
+fi
 
 # TODO: Perl
 
