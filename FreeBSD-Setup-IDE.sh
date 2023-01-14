@@ -57,7 +57,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -271,9 +271,31 @@ then
     fi
 fi
 
-# TODO: C# ?
+if [ "$_language" = "go" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                    Setting up Golang...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
 
-# TODO: Go
+    sudo pkg install go gpm gobuffalo
+
+    read -p "Choose IDE (vscode, liteide): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+
+        vscode --install-extension golang.Go    # https://marketplace.visualstudio.com/items?itemName=golang.Go
+    fi
+fi
+
+# TODO: C# ?
 
 # TODO: Perl
 
