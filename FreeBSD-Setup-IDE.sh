@@ -8,6 +8,10 @@ install_npm() {
     sudo pkg install npm
 }
 
+install_typescript() {
+    sudo npm install -g typescript
+}
+
 install_gcc() {
     read -p "Do you want to install gcc? (yes/no) " _installGcc;
 
@@ -73,7 +77,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -349,6 +353,8 @@ then
     echo ""
 
     install_npm
+    install_typescript
+    
     sudo npm install -g @angular/cli
 
     read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
@@ -366,7 +372,37 @@ then
     fi
 fi
 
-# TODO: React
+if [ "$_language" = "react" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                     Setting up React...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    install_npm
+    install_typescript
+
+    sudo npm install -g create-react-app react redux react-redux
+
+    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+        install_common_vscode_npm_extensions
+
+        vscode --install-extension dsznajder.es7-react-js-snippets      # https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets
+        vscode --install-extension msjsdiag.vscode-react-native         # https://marketplace.visualstudio.com/items?itemName=msjsdiag.vscode-react-native
+        vscode --install-extension burkeholland.simple-react-snippets   # https://marketplace.visualstudio.com/items?itemName=burkeholland.simple-react-snippets
+        vscode --install-extension EQuimper.react-native-react-redux    # https://marketplace.visualstudio.com/items?itemName=EQuimper.react-native-react-redux
+        vscode --install-extension jingkaizhao.vscode-redux-devtools    # https://marketplace.visualstudio.com/items?itemName=jingkaizhao.vscode-redux-devtools
+    fi
+fi
 
 # TODO: ReactRedux
 
