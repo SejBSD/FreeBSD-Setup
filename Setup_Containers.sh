@@ -22,6 +22,12 @@ sudo pkg install kubectl
 echo "## Installing helm... ##"
 sudo pkg install helm
 
+echo "## Installing containerd..."
+sudo pkg install containerd
+
+echo "## Installing podman..."
+sudo pkg install podman
+
 read -p "## Install VSCode? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]
