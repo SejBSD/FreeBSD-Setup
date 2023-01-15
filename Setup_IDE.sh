@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sh ./Update.sh
+
 install_llvm() {
     sudo pkg install llvm
 }
@@ -56,16 +58,6 @@ install_common_vscode_npm_extensions() {
     vscode --install-extension Orta.vscode-jest                     # https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest
     vscode --install-extension leizongmin.node-module-intellisense  # https://marketplace.visualstudio.com/items?itemName=leizongmin.node-module-intellisense
 }
-
-echo ""
-echo "################################################################"
-echo "##                                                            ##"
-echo "##                     Update packages...                     ##"
-echo "##                                                            ##"
-echo "################################################################"
-echo ""
-
-sudo pkg update && sudo pkg upgrade
 
 echo ""
 echo "################################################################"
