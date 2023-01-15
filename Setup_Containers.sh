@@ -31,6 +31,9 @@ sudo pkg install podman
 echo "## Installing minikube..."
 sudo pkg install minikube
 
+echo "## Installing vm-bhyve..."
+sudo pkg install vm-bhyve
+
 read -p "## Install VSCode? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]
