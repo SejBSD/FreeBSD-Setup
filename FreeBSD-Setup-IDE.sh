@@ -77,7 +77,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -404,7 +404,35 @@ then
     fi
 fi
 
-# TODO: Vue
+if [ "$_language" = "vue" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                    Setting up Vue.js...                    ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
+
+    install_npm
+    install_typescript
+    
+    sudo npm install -g @vue/cli
+
+    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+
+    install_ide $_ide
+
+    if [ "$_ide" = "vscode" ]
+    then
+        install_common_vscode_extensions
+        install_common_vscode_npm_extensions
+
+        vscode --install-extension Vue.volar                        # https://marketplace.visualstudio.com/items?itemName=Vue.volar
+        vscode --install-extension Vue.vscode-typescript-vue-plugin # https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin
+        vscode --install-extension hollowtree.vue-snippets          # https://marketplace.visualstudio.com/items?itemName=hollowtree.vue-snippets
+    fi
+fi
 
 # TODO: Perl
 
