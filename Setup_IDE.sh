@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sh ./Update.sh
+sh ./Internal_Update.sh
 
 install_llvm() {
     sudo pkg install llvm
@@ -15,7 +15,7 @@ install_typescript() {
 }
 
 install_gcc() {
-    read -p "Do you want to install gcc? (yes/no) " _installGcc;
+    read -p "## Do you want to install gcc? (yes/no) " _installGcc;
 
     if [ "$_installGcc" = "yes" ]
     then
@@ -31,21 +31,7 @@ install_ide() {
 }
 
 install_common_vscode_extensions() {
-    vscode --install-extension mhutchie.git-graph                       # https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph
-    vscode --install-extension eamodio.gitlens                          # https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-    vscode --install-extension formulahendry.auto-close-tag             # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
-    vscode --install-extension formulahendry.auto-rename-tag            # https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag
-    vscode --install-extension formulahendry.code-runner                # https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-    vscode --install-extension GrapeCity.gc-excelviewer                 # https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer
-    vscode --install-extension esbenp.prettier-vscode                   # https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-    vscode --install-extension mechatroner.rainbow-csv                  # https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv
-    vscode --install-extension Gruntfuggly.todo-tree                    # https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
-    vscode --install-extension wayou.vscode-todo-highlight              # https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight
-    vscode --install-extension redhat.vscode-xml                        # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml
-    vscode --install-extension redhat.vscode-yaml                       # https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
-    vscode --install-extension 2gua.rainbow-brackets                    # https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets
-    vscode --install-extension VisualStudioExptTeam.vscodeintellicode   # https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
-    vscode --install-extension christian-kohler.path-intellisense       # https://marketplace.visualstudio.com/items?itemName=christian-kohler.path-intellisense
+    sh ./Internal_Common_VSCode_Extensions.sh
 }
 
 install_common_vscode_npm_extensions() {
@@ -69,7 +55,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue, lua): " _language;
+read -p "## Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue, lua): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -81,7 +67,7 @@ then
     echo "################################################################"
     echo ""
 
-    read -p "Choose IDE (vscode): " _ide;
+    read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
 
@@ -107,21 +93,21 @@ then
 
     sudo pkg install openjdk8 openjdk11 openjdk17 openjdk18 openjdk19 maven gradle
 
-    read -p "OpenJDK implementation requires fdescfs(5) mounted on /dev/fd. Mount? (yes/no) " _mountFdescfs;
+    read -p "## OpenJDK implementation requires fdescfs(5) mounted on /dev/fd. Mount? (yes/no) " _mountFdescfs;
 
     if [ "$_mountFdescfs" = "yes" ]
     then
         echo "fdesc /dev/fd fdescfs rw 0 0" | sudo tee -a $_etcFsbatFilePath
     fi
 
-    read -p "OpenJDK implementation requires procfs(5) mounted on /proc. Mount? (yes/no) " _mountProcfs;
+    read -p "## OpenJDK implementation requires procfs(5) mounted on /proc. Mount? (yes/no) " _mountProcfs;
 
     if [ "$_mountProcfs" = "yes" ]
     then
         echo "proc /proc procfs rw 0 0" | sudo tee -a $_etcFsbatFilePath
     fi
 
-    read -p "Choose IDE (intellij, eclipse, netbeans, vscode): " _ide;
+    read -p "## Choose IDE (intellij, eclipse, netbeans, vscode): " _ide;
 
     install_ide $_ide
 
@@ -148,7 +134,7 @@ then
 
     install_llvm
 
-    read -p "Setup rustup? (yes/no) " _setupRustup;
+    read -p "## Setup rustup? (yes/no) " _setupRustup;
 
     if [ "$_setupRustup" = "yes" ]
     then
@@ -160,7 +146,7 @@ then
     echo ""
     sleep 7
 
-    read -p "Choose IDE (vscode, intellij): " _ide;
+    read -p "## Choose IDE (vscode, intellij): " _ide;
 
     install_ide $_ide
 
@@ -193,7 +179,7 @@ then
     echo "################################################################"
     echo ""
 
-    read -p "Choose IDE (vscode): " _ide;
+    read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
 
@@ -229,7 +215,7 @@ then
 
     install_llvm
 
-    read -p "Choose IDE (vscode, codeblocks, anjuta, upp (TheIDE), eclipse-cdt, kdevelop, qtcreator, jucipp, jetbrains-clion): " _ide;
+    read -p "## Choose IDE (vscode, codeblocks, anjuta, upp (TheIDE), eclipse-cdt, kdevelop, qtcreator, jucipp, jetbrains-clion): " _ide;
 
     install_ide $_ide
 
@@ -261,7 +247,7 @@ then
 
     sudo pkg install python py39-pip
 
-    read -p "Choose IDE (vscode, pycharm-ce, pycharm-pro, spyder, py-spyder, eric6-qt5-py39, eclipse-pydev): " _ide;
+    read -p "## Choose IDE (vscode, pycharm-ce, pycharm-pro, spyder, py-spyder, eric6-qt5-py39, eclipse-pydev): " _ide;
 
     install_ide $_ide
 
@@ -295,7 +281,7 @@ then
 
     sudo pkg install go gpm gobuffalo
 
-    read -p "Choose IDE (vscode, liteide): " _ide;
+    read -p "## Choose IDE (vscode, liteide): " _ide;
 
     install_ide $_ide
 
@@ -319,7 +305,7 @@ then
 
     sudo pkg install mono msbuild
 
-    read -p "Choose IDE (vscode): " _ide;
+    read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
 
@@ -349,7 +335,7 @@ then
     
     sudo npm install -g @angular/cli
 
-    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+    read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
 
@@ -379,7 +365,7 @@ then
 
     sudo npm install -g create-react-app react redux react-redux
 
-    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+    read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
 
@@ -411,7 +397,7 @@ then
     
     sudo npm install -g @vue/cli
 
-    read -p "Choose IDE (vscode, jetbrains-webstorm): " _ide;
+    read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
 
@@ -436,7 +422,7 @@ then
     echo "################################################################"
     echo ""
 
-    read -p "Choose IDE (vscode): " _ide;
+    read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
 
