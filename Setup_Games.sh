@@ -12,3 +12,6 @@ echo ""
 
 echo "## Installing minetest..."
 sudo pkg install minetest
+
+echo "## Installing wine..."
+sudo pkg install wine
