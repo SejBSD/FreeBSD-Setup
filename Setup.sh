@@ -1,3 +1,5 @@
+#!/bin/sh
+
 ##############################################################################
 ##  Source: https://github.com/Sejoslaw/FreeBSD-Setup
 ##
@@ -79,7 +81,7 @@ then
     pw usermod $_username -G wheel,sudo
 
     echo "$_username ALL=(ALL:ALL) ALL" >> $_sudoersFilePath
-else fi
+fi
 
 echo "# End Added by FreeBSD-Setup script" >> $_sudoersFilePath
 
@@ -98,7 +100,7 @@ read -p "Setup xorg for (username - or - blank for none/skip): " _username;
 if [ "$_username" != "" ]
 then
     pw groupmod video -m $_username
-else fi
+fi
 
 echo "" >> $_bootloaderConfFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up Xorg...\" phase)" >> $_bootloaderConfFilePath
@@ -141,7 +143,7 @@ else
     if [ "$_shouldInstallLegacyIntelDriver" = "yes" ]
     then
         pkg install xf86-video-intel
-    else fi
+    fi
 fi
 
 read -p "Setup video driver in file (use \"no\" for VM)? (yes/no): " _shouldSetupVideoDriverFile;
@@ -163,7 +165,7 @@ then
     echo "EndSection" >> $_videoDriverFilePath
 
     echo "# End Added by FreeBSD-Setup script" >> $_videoDriverFilePath
-else fi
+fi
 
 echo ""
 echo "################################################################"
@@ -215,13 +217,13 @@ echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" pha
 echo "proc           /proc       procfs  rw  0   0" >> $_etcFsbatFilePath
 echo "# End Added by FreeBSD-Setup script" >> $_etcFsbatFilePath
 
-if [ "$_desktopEnv" = "gnome-shell" || "$_desktopEnv" = "gnome" ]
+if [ "$_desktopEnv" = "gnome-shell" ] || [ "$_desktopEnv" = "gnome" ]
 then
     echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcRcConfFilePath
     echo "gnome_enable=\"YES\"" >> $_etcRcConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
-else fi
+fi
 
 echo ""
 echo "################################################################"
@@ -263,36 +265,36 @@ then
         echo "# Added by FreeBSD-Setup script (Enable Neofetch on terminal open)" >> $_shrcFilePath
         echo "neofetch" >> $_shrcFilePath
         echo "# End Added by FreeBSD-Setup script" >> $_shrcFilePath
-    else fi
-else fi
+    fi
+fi
 
 read -p "Install terminal and file manager (GNOME)? (yes/no): " _shouldInstallGnomeCoreTools;
 
 if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
 then
     pkg install gnome-terminal nautilus
-else fi
+fi
 
 read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
     pkg install vscode flameshot wifimgr dconf-editor inkscape
-else fi
+fi
 
 read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser;
 
 if [ "$_webBrowser" != "" ]
 then
-    pkg install _webBrowser
-else fi
+    pkg install $_webBrowser
+fi
 
 read -p "Install baobab (GNOME) (disk usage scanner)? (yes/no): " _shouldInstallBaobab;
 
 if [ "$_shouldInstallBaobab" = "yes" ]
 then
     pkg install baobab
-else fi
+fi
 
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
 
@@ -308,6 +310,8 @@ then
     echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_etcRcConfFilePath
     echo "vboxnet_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "vboxguest_enable=\"YES\"" >> $_etcRcConfFilePath
+    echo "vboxservice_enable=\"YES\"" >> $_etcRcConfFilePath
     echo "devfs_system_ruleset=\"system"\" >> $_etcRcConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
 
@@ -321,7 +325,7 @@ then
     echo "[system=10]" >> $_etcDevfsRulesFilePath
     echo "add path 'usb/*' mode 0660 group operator" >> $_etcDevfsRulesFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcDevfsRulesFilePath
-else fi
+fi
 
 echo ""
 echo "################################################################"
@@ -342,7 +346,7 @@ then
     ./linux-browser-installer install $_webBrowserName
     ./linux-browser-installer symlink icons
     ./linux-browser-installer symlink themes
-else fi
+fi
 
 echo ""
 echo "################################################################"
@@ -361,7 +365,7 @@ then
     echo "autoboot_delay=\"0\"" >> $_bootloaderConfFilePath
     echo "boot_mute=\"YES\"" >> $_bootloaderConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_bootloaderConfFilePath
-else fi
+fi
 
 echo ""
 echo "################################################################"
@@ -388,5 +392,5 @@ then
         echo "xset s noexpose" >> $_xprofileFilePath
         echo "xset s noblank" >> $_xprofileFilePath
         echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
-    else fi
-else fi
+    fi
+fi
