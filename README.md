@@ -1,5 +1,5 @@
 # FreeBSD-Setup
-Collection of script for setting up various parts of the FreeBSD. <br/>
+Collection of scripts for setting up various parts of the FreeBSD. <br/>
 Setup.sh is a main script which should be called directly after setting up an OS. <br/>
 
 ## Important !!!
