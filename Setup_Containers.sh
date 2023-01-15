@@ -28,6 +28,9 @@ sudo pkg install containerd
 echo "## Installing podman..."
 sudo pkg install podman
 
+echo "## Installing minikube..."
+sudo pkg install minikube
+
 read -p "## Install VSCode? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]
