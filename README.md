@@ -1,9 +1,9 @@
 # FreeBSD-Setup
-Single script for setting up FreeBSD with UI and tools. <br/>
-This should be called directly after the fresh install of FreeBSD. <br/>
+Collection of script for setting up various parts of the FreeBSD. <br/>
+Setup.sh is a main script which should be called directly after setting up an OS. <br/>
 
 ## Important !!!
-The script should be called as root.
+Setup.sh script should be called as root.
 
 ## Install
 ```
@@ -13,7 +13,7 @@ git clone https://github.com/Sejoslaw/FreeBSD-Setup.git
 
 cd FreeBSD-Setup
 
-sh ./FreeBSD-Setup.sh
+sh ./Setup.sh
 ```
 
 Or if you want a default FreeBSD experience just do:
