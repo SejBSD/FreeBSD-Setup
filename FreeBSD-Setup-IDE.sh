@@ -77,7 +77,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
-read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue): " _language;
+read -p "Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue, lua): " _language;
 
 if [ "$_language" = "shell" ]
 then
@@ -434,10 +434,30 @@ then
     fi
 fi
 
-# TODO: Perl
+if [ "$_language" = "lua" ]
+then
+    echo ""
+    echo "################################################################"
+    echo "##                                                            ##"
+    echo "##                      Setting up Lua...                     ##"
+    echo "##                                                            ##"
+    echo "################################################################"
+    echo ""
 
-# TODO: Lua
+    read -p "Choose IDE (vscode): " _ide;
 
-# TODO: Ruby
+    install_ide $_ide
 
-# TODO: PHP
+    if [ "$_ide" = "vscode" ]
+    then
+        sudo pkg install lua-language-server lua51 lua52 lua53 lua54
+
+        install_common_vscode_extensions sumneko.lua    # https://marketplace.visualstudio.com/items?itemName=sumneko.lua
+    fi
+fi
+
+# TODO Idea: Perl
+
+# TODO Idea: Ruby
+
+# TODO Idea: PHP
