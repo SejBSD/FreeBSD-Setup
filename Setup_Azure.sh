@@ -10,6 +10,7 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
+echo ""
 read -p " ## Install VSCode with extensions? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]

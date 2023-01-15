@@ -15,6 +15,7 @@ install_typescript() {
 }
 
 install_gcc() {
+    echo ""
     read -p "## Do you want to install gcc? (yes/no) " _installGcc;
 
     if [ "$_installGcc" = "yes" ]
@@ -55,6 +56,7 @@ echo ""
 
 _etcFsbatFilePath=/etc/fstab
 
+echo ""
 read -p "## Choose language (shell, java, rust, sql, cpp, python, go, dotnet-mono, angular, react, vue, lua): " _language;
 
 if [ "$_language" = "shell" ]
@@ -67,6 +69,7 @@ then
     echo "################################################################"
     echo ""
 
+    echo ""
     read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
@@ -93,6 +96,7 @@ then
 
     sudo pkg install openjdk8 openjdk11 openjdk17 openjdk18 openjdk19 maven gradle
 
+    echo ""
     read -p "## OpenJDK implementation requires fdescfs(5) mounted on /dev/fd. Mount? (yes/no) " _mountFdescfs;
 
     if [ "$_mountFdescfs" = "yes" ]
@@ -100,6 +104,7 @@ then
         echo "fdesc /dev/fd fdescfs rw 0 0" | sudo tee -a $_etcFsbatFilePath
     fi
 
+    echo ""
     read -p "## OpenJDK implementation requires procfs(5) mounted on /proc. Mount? (yes/no) " _mountProcfs;
 
     if [ "$_mountProcfs" = "yes" ]
@@ -107,6 +112,7 @@ then
         echo "proc /proc procfs rw 0 0" | sudo tee -a $_etcFsbatFilePath
     fi
 
+    echo ""
     read -p "## Choose IDE (intellij, eclipse, netbeans, vscode): " _ide;
 
     install_ide $_ide
@@ -134,6 +140,7 @@ then
 
     install_llvm
 
+    echo ""
     read -p "## Setup rustup? (yes/no) " _setupRustup;
 
     if [ "$_setupRustup" = "yes" ]
@@ -146,6 +153,7 @@ then
     echo ""
     sleep 7
 
+    echo ""
     read -p "## Choose IDE (vscode, intellij): " _ide;
 
     install_ide $_ide
@@ -179,6 +187,7 @@ then
     echo "################################################################"
     echo ""
 
+    echo ""
     read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
@@ -215,6 +224,7 @@ then
 
     install_llvm
 
+    echo ""
     read -p "## Choose IDE (vscode, codeblocks, anjuta, upp (TheIDE), eclipse-cdt, kdevelop, qtcreator, jucipp, jetbrains-clion): " _ide;
 
     install_ide $_ide
@@ -247,6 +257,7 @@ then
 
     sudo pkg install python py39-pip
 
+    echo ""
     read -p "## Choose IDE (vscode, pycharm-ce, pycharm-pro, spyder, py-spyder, eric6-qt5-py39, eclipse-pydev): " _ide;
 
     install_ide $_ide
@@ -281,6 +292,7 @@ then
 
     sudo pkg install go gpm gobuffalo
 
+    echo ""
     read -p "## Choose IDE (vscode, liteide): " _ide;
 
     install_ide $_ide
@@ -305,6 +317,7 @@ then
 
     sudo pkg install mono msbuild
 
+    echo ""
     read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
@@ -335,6 +348,7 @@ then
     
     sudo npm install -g @angular/cli
 
+    echo ""
     read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
@@ -365,6 +379,7 @@ then
 
     sudo npm install -g create-react-app react redux react-redux
 
+    echo ""
     read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
@@ -397,6 +412,7 @@ then
     
     sudo npm install -g @vue/cli
 
+    echo ""
     read -p "## Choose IDE (vscode, jetbrains-webstorm): " _ide;
 
     install_ide $_ide
@@ -422,6 +438,7 @@ then
     echo "################################################################"
     echo ""
 
+    echo ""
     read -p "## Choose IDE (vscode): " _ide;
 
     install_ide $_ide
