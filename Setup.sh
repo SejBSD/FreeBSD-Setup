@@ -20,7 +20,7 @@ _sudoersFilePath=/usr/local/etc/sudoers
 _bootloaderConfFilePath=/boot/loader.conf
 _etcRcConfFilePath=/etc/rc.conf
 _videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
-_etcFsbatFilePath=/etc/fstab
+_etcFstabFilePath=/etc/fstab
 _etcDevfsRulesFilePath=/etc/devfs.rules
 
 echo ""
@@ -213,9 +213,9 @@ read -p "Which one: " _desktopEnv;
 pkg install $_desktopEnv
 
 echo ""
-echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFsbatFilePath
-echo "proc           /proc       procfs  rw  0   0" >> $_etcFsbatFilePath
-echo "# End Added by FreeBSD-Setup script" >> $_etcFsbatFilePath
+echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFstabFilePath
+echo "proc           /proc       procfs  rw  0   0" >> $_etcFstabFilePath
+echo "# End Added by FreeBSD-Setup script" >> $_etcFstabFilePath
 
 if [ "$_desktopEnv" = "gnome-shell" ] || [ "$_desktopEnv" = "gnome" ]
 then
@@ -393,4 +393,38 @@ then
         echo "xset s noblank" >> $_xprofileFilePath
         echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
     fi
+fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##          Setting up Linux Binary Compatibility...          ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Enable Linux Binary Compatibility? (yes/no) " _enableLinux;
+
+if [ "$_enableLinux" = "yes" ]
+then
+    echo "" >> $_etcRcConfFilePath;
+    echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcRcConfFilePath;
+    echo "linux_enable=\"YES\"" >> $_etcRcConfFilePath;
+    echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath;
+
+    echo "Starting Linux service..."
+    service linux start
+
+    pkg install linux_base-c7
+
+    echo "" >> $_etcFstabFilePath;
+    echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcFstabFilePath;
+    echo "linprocfs   /compat/linux/proc  linprocfs       rw      0       0" >> $_etcFstabFilePath;
+    echo "linsysfs    /compat/linux/sys   linsysfs        rw      0       0" >> $_etcFstabFilePath;
+    echo "tmpfs    /compat/linux/dev/shm  tmpfs   rw,mode=1777    0       0" >> $_etcFstabFilePath;
+    echo "# End Added by FreeBSD-Setup script" >> $_etcFstabFilePath;
+
+    mount /compat/linux/proc
+    mount /compat/linux/sys
+    mount /compat/linux/dev/shm
 fi
