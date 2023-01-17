@@ -22,6 +22,7 @@ _etcRcConfFilePath=/etc/rc.conf
 _videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
 _etcFstabFilePath=/etc/fstab
 _etcDevfsRulesFilePath=/etc/devfs.rules
+_etcPkgFConf=/etc/pkg/FreeBSD.conf
 
 echo ""
 echo "################################################################"
@@ -47,6 +48,22 @@ echo "################################################################"
 echo ""
 
 freebsd-update fetch && freebsd-update install
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##                   Setting up pkg URLs...                   ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Change pkg URLs to latest? (yes/no) " _pkgLatest;
+
+if [ "$_pkgLatest" = "yes" ]
+then
+    sed -i 'orig' 's/quarterly/latest/' $_etcPkgFConf
+    grep url $_etcPkgFConf
+fi
 
 echo ""
 echo "################################################################"
@@ -404,6 +421,110 @@ then
 
     mount /compat/linux/proc
     mount /compat/linux/sys
+fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##                  Setting up IO support...                  ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Enable MMC/SD card-reader support? (yes/no) " _cardReaderSupport;
+
+if [ "$_cardReaderSupport" = "yes" ]
+then
+    sysrc kld_list+="mmc"
+	sysrc kld_list+="mmcsd"
+	sysrc kld_list+="sdhci"
+fi
+
+read -p "Enable access ATAPI devices through the CAM subsystem support? (yes/no) " _atapiSupport;
+
+if [ "$_atapiSupport" = "yes" ]
+then
+    sysrc kld_list+="atapicam"
+fi
+
+read -p "Enable filesystems in userspace support? (yes/no) " _fiuSupport;
+
+if [ "$_fiuSupport" = "yes" ]
+then
+	pkg install fusefs-lkl e2fsprogs fuse fuse-utils
+	sysrc kld_list+="fusefs"
+fi
+
+read -p "Enable Intel Core thermal sensors support? (yes/no) " _intelThermalSupport;
+
+if [ "$_intelThermalSupport" = "yes" ]
+then
+    sysrc kld_list+="coretemp"
+fi
+
+read -p "Enable AMD K8, K10, K11 thermal sensors support? (yes/no) " _amdThermalSupport;
+
+if [ "$_amdThermalSupport" = "yes" ] && (sysctl -a | grep -q -i "hw.model" | grep -q AMD)
+then
+    amdtemp_load="YES"
+fi
+
+read -p "Enable bluetooth support? (yes/no) " _bluetoothSupport;
+
+if [ "$_bluetoothSupport" = "yes" ]
+then
+    sysrc kld_list+="ng_ubt"
+	sysrc hcsecd_enable="YES"
+	sysrc sdpd_enable="YES"
+fi
+
+read -p "Enable ipfw firewall support? (yes/no) " _ipfwSupport;
+
+if [ "$_ipfwSupport" = "yes" ]
+then
+    sysrc firewall_type="WORKSTATION"
+	sysrc firewall_myservices="22/tcp"
+	sysrc firewall_allowservices="any"
+	sysrc firewall_enable="YES"
+fi
+
+read -p "Enable in-memory filesystems support? (yes/no) " _tmpfsSupport;
+
+if [ "$_tmpfsSupport" = "yes" ]
+then
+    sysrc kld_list+="tmpfs"
+fi
+
+read -p "Enable asynchronous I/O support? (yes/no) " _asyncioSupport;
+
+if [ "$_asyncioSupport" = "yes" ]
+then
+    sysrc kld_list+="aio"
+fi
+
+read -p "Enable powerd (hiadaptive on AC, adaptive on battery) support? (yes/no) " _powerdSupport;
+
+if [ "$_powerdSupport" = "yes" ]
+then
+    sysrc powerd_enable="YES"
+	sysrc powerd_flags="-a hiadaptive -b adaptive"
+fi
+
+read -p "Enable webcams support? (yes/no) " _webcamsSupport;
+
+if [ "$_webcamsSupport" = "yes" ]
+then
+    pkg install webcamd
+    sysrc kld_list+="cuse4bsd"
+	sysrc webcamd_enable="YES"
+fi
+
+read -p "Enable CUPS (printers) support? (yes/no) " _cupsSupport;
+
+if [ "$_cardReaderSupport" = "yes" ]
+then
+    pkg install cups
+    sysrc cupsd_enable="YES"
 fi
 
 echo ""
