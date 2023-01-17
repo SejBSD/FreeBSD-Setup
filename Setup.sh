@@ -292,11 +292,11 @@ then
     pkg install gnome-terminal nautilus
 fi
 
-read -p "Install common tools (vscode, flameshot, wifimgr, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
+read -p "Install common tools (vscode, flameshot, networkmgr, wifimgr, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
-    pkg install vscode flameshot wifimgr dconf-editor inkscape
+    pkg install vscode flameshot networkmgr wifimgr dconf-editor inkscape
 fi
 
 read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser;
