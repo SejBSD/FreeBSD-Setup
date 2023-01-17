@@ -421,10 +421,8 @@ then
     echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcFstabFilePath;
     echo "linprocfs   /compat/linux/proc  linprocfs       rw      0       0" >> $_etcFstabFilePath;
     echo "linsysfs    /compat/linux/sys   linsysfs        rw      0       0" >> $_etcFstabFilePath;
-    echo "tmpfs    /compat/linux/dev/shm  tmpfs   rw,mode=1777    0       0" >> $_etcFstabFilePath;
     echo "# End Added by FreeBSD-Setup script" >> $_etcFstabFilePath;
 
     mount /compat/linux/proc
     mount /compat/linux/sys
-    mount /compat/linux/dev/shm
 fi
