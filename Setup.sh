@@ -330,27 +330,6 @@ fi
 echo ""
 echo "################################################################"
 echo "##                                                            ##"
-echo "##               Setting up 3rd Party Tools...                ##"
-echo "##                                                            ##"
-echo "################################################################"
-echo ""
-
-read -p "Install web browser (based on Linux Binary Compatibility) (chrome/brave/vivaldi/edge/opera - or - blank for none)? " _webBrowserName;
-
-if [ "$_webBrowserName" != "" ]
-then
-    git clone https://github.com/mrclksr/linux-browser-installer.git
-
-    cd linux-browser-installer
-
-    ./linux-browser-installer install $_webBrowserName
-    ./linux-browser-installer symlink icons
-    ./linux-browser-installer symlink themes
-fi
-
-echo ""
-echo "################################################################"
-echo "##                                                            ##"
 echo "##                  Setting up Quick Boot...                  ##"
 echo "##                                                            ##"
 echo "################################################################"
@@ -425,4 +404,32 @@ then
 
     mount /compat/linux/proc
     mount /compat/linux/sys
+fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##               Setting up 3rd Party Tools...                ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+cd /tmp
+
+read -p "Install Ubuntu (Linux Binary Compatibility)? (yes/no) " _installUbuntu;
+
+if [ "$_installUbuntu" = "yes" ]
+then
+    git clone https://github.com/mrclksr/linux-browser-installer.git
+
+    cd linux-browser-installer
+
+    ./linux-browser-installer chroot create
+
+    read -p "Install web browser (chrome/brave/vivaldi/edge/opera - or - blank for none)? " _webBrowserName;
+
+    if [ "$_webBrowserName" != "" ]
+    then
+        ./linux-browser-installer install $_webBrowserName
+    fi
 fi
