@@ -20,7 +20,7 @@ _sudoersFilePath=/usr/local/etc/sudoers
 _bootloaderConfFilePath=/boot/loader.conf
 _etcRcConfFilePath=/etc/rc.conf
 _videoDriverFileDir=/usr/local/etc/X11/xorg.conf.d/
-_etcFsbatFilePath=/etc/fstab
+_etcFstabFilePath=/etc/fstab
 _etcDevfsRulesFilePath=/etc/devfs.rules
 
 echo ""
@@ -213,9 +213,9 @@ read -p "Which one: " _desktopEnv;
 pkg install $_desktopEnv
 
 echo ""
-echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFsbatFilePath
-echo "proc           /proc       procfs  rw  0   0" >> $_etcFsbatFilePath
-echo "# End Added by FreeBSD-Setup script" >> $_etcFsbatFilePath
+echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFstabFilePath
+echo "proc           /proc       procfs  rw  0   0" >> $_etcFstabFilePath
+echo "# End Added by FreeBSD-Setup script" >> $_etcFstabFilePath
 
 if [ "$_desktopEnv" = "gnome-shell" ] || [ "$_desktopEnv" = "gnome" ]
 then
@@ -330,27 +330,6 @@ fi
 echo ""
 echo "################################################################"
 echo "##                                                            ##"
-echo "##               Setting up 3rd Party Tools...                ##"
-echo "##                                                            ##"
-echo "################################################################"
-echo ""
-
-read -p "Install web browser (based on Linux Binary Compatibility) (chrome/brave/vivaldi/edge/opera - or - blank for none)? " _webBrowserName;
-
-if [ "$_webBrowserName" != "" ]
-then
-    git clone https://github.com/mrclksr/linux-browser-installer.git
-
-    cd linux-browser-installer
-
-    ./linux-browser-installer install $_webBrowserName
-    ./linux-browser-installer symlink icons
-    ./linux-browser-installer symlink themes
-fi
-
-echo ""
-echo "################################################################"
-echo "##                                                            ##"
 echo "##                  Setting up Quick Boot...                  ##"
 echo "##                                                            ##"
 echo "################################################################"
@@ -392,5 +371,65 @@ then
         echo "xset s noexpose" >> $_xprofileFilePath
         echo "xset s noblank" >> $_xprofileFilePath
         echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
+    fi
+fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##          Setting up Linux Binary Compatibility...          ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Enable Linux Binary Compatibility? (yes/no) " _enableLinux;
+
+if [ "$_enableLinux" = "yes" ]
+then
+    echo "" >> $_etcRcConfFilePath;
+    echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcRcConfFilePath;
+    echo "linux_enable=\"YES\"" >> $_etcRcConfFilePath;
+    echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath;
+
+    echo "Starting Linux service..."
+    service linux start
+
+    pkg install linux_base-c7
+
+    echo "" >> $_etcFstabFilePath;
+    echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcFstabFilePath;
+    echo "linprocfs   /compat/linux/proc  linprocfs       rw      0       0" >> $_etcFstabFilePath;
+    echo "linsysfs    /compat/linux/sys   linsysfs        rw      0       0" >> $_etcFstabFilePath;
+    echo "# End Added by FreeBSD-Setup script" >> $_etcFstabFilePath;
+
+    mount /compat/linux/proc
+    mount /compat/linux/sys
+fi
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
+echo "##               Setting up 3rd Party Tools...                ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+cd /tmp
+
+read -p "Install Ubuntu (Linux Binary Compatibility)? (yes/no) " _installUbuntu;
+
+if [ "$_installUbuntu" = "yes" ]
+then
+    git clone https://github.com/mrclksr/linux-browser-installer.git
+
+    cd linux-browser-installer
+
+    ./linux-browser-installer chroot create
+
+    read -p "Install web browser (chrome/brave/vivaldi/edge/opera - or - blank for none)? " _webBrowserName;
+
+    if [ "$_webBrowserName" != "" ]
+    then
+        ./linux-browser-installer install $_webBrowserName
     fi
 fi
