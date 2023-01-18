@@ -15,7 +15,7 @@ read -p " ## Install VSCode with extensions? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]
 then
-    sudo pkg install vscode
+    sudo pkg install -y vscode
 
     sh ./Internal_Common_VSCode_Azure.sh
 fi

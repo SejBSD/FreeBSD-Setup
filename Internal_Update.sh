@@ -8,4 +8,4 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-sudo pkg update && sudo pkg upgrade
+sudo pkg update && sudo pkg upgrade -y

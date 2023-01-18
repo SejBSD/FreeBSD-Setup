@@ -3,11 +3,11 @@
 sh ./Internal_Update.sh
 
 install_llvm() {
-    sudo pkg install llvm
+    sudo pkg install -y llvm
 }
 
 install_npm() {
-    sudo pkg install npm
+    sudo pkg install -y npm
 }
 
 install_typescript() {
@@ -20,14 +20,14 @@ install_gcc() {
 
     if [ "$_installGcc" = "yes" ]
     then
-        sudo pkg install gcc
+        sudo pkg install -y gcc
     fi
 }
 
 install_ide() {
     if [ "$0" != "" ]
     then
-        sudo pkg install $1
+        sudo pkg install -y $1
     fi
 }
 
@@ -76,7 +76,7 @@ then
 
     if [ "$_ide" = "vscode" ]
     then
-        sudo pkg install hs-ShellCheck
+        sudo pkg install -y hs-ShellCheck
 
         install_common_vscode_extensions
 
@@ -94,7 +94,7 @@ then
     echo "################################################################"
     echo ""
 
-    sudo pkg install openjdk8 openjdk11 openjdk17 openjdk18 openjdk19 maven gradle
+    sudo pkg install -y openjdk8 openjdk11 openjdk17 openjdk18 openjdk19 maven gradle
 
     echo ""
     read -p "## OpenJDK implementation requires fdescfs(5) mounted on /dev/fd. Mount? (yes/no) " _mountFdescfs;
@@ -255,7 +255,7 @@ then
     echo "################################################################"
     echo ""
 
-    sudo pkg install python py39-pip
+    sudo pkg install -y python py39-pip
 
     echo ""
     read -p "## Choose IDE (vscode, pycharm-ce, pycharm-pro, spyder, py-spyder, eric6-qt5-py39, eclipse-pydev): " _ide;
@@ -264,7 +264,7 @@ then
 
     if [ "$_ide" = "spyder" ] || [ "$_ide" = "py-spyder" ]
     then
-        sudo pkg install py39-docstring-to-markdown
+        sudo pkg install -y py39-docstring-to-markdown
     fi
 
     if [ "$_ide" = "vscode" ]
@@ -290,7 +290,7 @@ then
     echo "################################################################"
     echo ""
 
-    sudo pkg install go gpm gobuffalo
+    sudo pkg install -y go gpm gobuffalo
 
     echo ""
     read -p "## Choose IDE (vscode, liteide): " _ide;
@@ -315,7 +315,7 @@ then
     echo "################################################################"
     echo ""
 
-    sudo pkg install mono msbuild
+    sudo pkg install -y mono msbuild
 
     echo ""
     read -p "## Choose IDE (vscode): " _ide;
@@ -445,7 +445,7 @@ then
 
     if [ "$_ide" = "vscode" ]
     then
-        sudo pkg install lua-language-server lua51 lua52 lua53 lua54
+        sudo pkg install -y lua-language-server lua51 lua52 lua53 lua54
 
         install_common_vscode_extensions sumneko.lua    # https://marketplace.visualstudio.com/items?itemName=sumneko.lua
     fi
