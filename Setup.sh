@@ -78,12 +78,22 @@ pkg update && pkg upgrade -y
 echo ""
 echo "################################################################"
 echo "##                                                            ##"
+echo "##                     Setting up User...                     ##"
+echo "##                                                            ##"
+echo "################################################################"
+echo ""
+
+read -p "Specify username for which to configure your OS? (username) " _user;
+
+echo ""
+echo "################################################################"
+echo "##                                                            ##"
 echo "##                     Setting up sudo...                     ##"
 echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-pkg install sudo
+pkg install -y sudo
 
 echo "" >> $_sudoersFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up sudo...\" phase)" >> $_sudoersFilePath
@@ -91,13 +101,11 @@ echo "# Added by FreeBSD-Setup script (\"Setting up sudo...\" phase)" >> $_sudoe
 echo "%wheel ALL=(ALL:ALL) ALL" >> $_sudoersFilePath
 echo "%sudo	ALL=(ALL:ALL) ALL" >> $_sudoersFilePath
 
-read -p "Setup sudo for (username - or - blank for none/skip): " _username;
-
-if [ "$_username" != "" ]
+if [ "$_user" != "" ]
 then
-    pw usermod $_username -G wheel,sudo
+    pw usermod $_user -G wheel,sudo
 
-    echo "$_username ALL=(ALL:ALL) ALL" >> $_sudoersFilePath
+    echo "$_user ALL=(ALL:ALL) ALL" >> $_sudoersFilePath
 fi
 
 echo "# End Added by FreeBSD-Setup script" >> $_sudoersFilePath
@@ -110,13 +118,11 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-pkg install xorg
+pkg install -y xorg
 
-read -p "Setup xorg for (username - or - blank for none/skip): " _username;
-
-if [ "$_username" != "" ]
+if [ "$_user" != "" ]
 then
-    pw groupmod video -m $_username
+    pw groupmod video -m $_user
 fi
 
 echo "" >> $_bootloaderConfFilePath
@@ -148,7 +154,7 @@ then
 
     sleep 3
 else
-    pkg install drm-kmod
+    pkg install -y drm-kmod
 
     echo "" >> $_etcRcConfFilePath
     echo "# Added by FreeBSD-Setup script (\"$_videoDriver\" video card driver)" >> $_etcRcConfFilePath
@@ -159,7 +165,7 @@ else
 
     if [ "$_shouldInstallLegacyIntelDriver" = "yes" ]
     then
-        pkg install xf86-video-intel
+        pkg install -y xf86-video-intel
     fi
 fi
 
@@ -199,7 +205,7 @@ echo "  - slim -> Simple Login Manager"
 
 read -p "Which one: " _displayManager;
 
-pkg install $_displayManager
+pkg install -y $_displayManager
 
 echo "" >> $_etcRcConfFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up Display Manager...\" phase)" >> $_etcRcConfFilePath
@@ -227,7 +233,7 @@ echo "  - xfce -> XFCE environment"
 
 read -p "Which one: " _desktopEnv;
 
-pkg install $_desktopEnv
+pkg install -y $_desktopEnv
 
 echo ""
 echo "# Added by FreeBSD-Setup script (\"Setting up Desktop Environment...\" phase)" >> $_etcFstabFilePath
@@ -250,6 +256,8 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
+pkg install -y networkmgr wifimgr
+
 echo "" >> $_etcRcConfFilePath
 echo "# Added by FreeBSD-Setup script (\"Setting up Wi-Fi...\" phase)" >> $_etcRcConfFilePath
 
@@ -257,6 +265,17 @@ echo "wlans_iwm0=\"wlan0\"" >> $_etcRcConfFilePath
 echo "ifconfig_wlan0=\"WPA DHCP\"" >> $_etcRcConfFilePath
 
 echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
+
+_userAutostartDir=/home/$_user/.config/autostart
+mkdir -p $_userAutostartDir
+
+_networkmgrEntry=networkmgr.desktop
+
+echo "[Desktop Entry]" >> $_networkmgrEntry
+echo "Type=Application" >> $_networkmgrEntry
+echo "Name=Network Manager" >> $_networkmgrEntry
+echo "Comment=Network Manager" >> $_networkmgrEntry
+echo "Exec=networkmgr" >> $_networkmgrEntry
 
 echo ""
 echo "################################################################"
@@ -270,13 +289,11 @@ read -p "Install core tools (nano, htop, neofetch)? (yes/no): " _shouldInstallCo
 
 if [ "$_shouldInstallCoreTools" = "yes" ]
 then
-    pkg install nano htop neofetch
+    pkg install -y nano htop neofetch
 
-    read -p "Enable neofetch on terminal open in \".shrc\" file? (username - or - blank for none): " _enableNeofetchUsername;
-
-    if [ "$_enableNeofetchUsername" != "" ]
+    if [ "$_user" != "" ]
     then
-        _shrcFilePath=/home/$_enableNeofetchUsername/.shrc
+        _shrcFilePath=/home/$_user/.shrc
 
         echo "" >> $_shrcFilePath
         echo "# Added by FreeBSD-Setup script (Enable Neofetch on terminal open)" >> $_shrcFilePath
@@ -289,35 +306,35 @@ read -p "Install terminal and file manager (GNOME)? (yes/no): " _shouldInstallGn
 
 if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
 then
-    pkg install gnome-terminal nautilus
+    pkg install -y gnome-terminal nautilus
 fi
 
-read -p "Install common tools (vscode, flameshot, networkmgr, wifimgr, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
+read -p "Install common tools (vscode, flameshot, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
-    pkg install vscode flameshot networkmgr wifimgr dconf-editor inkscape
+    pkg install -y vscode flameshot dconf-editor inkscape
 fi
 
 read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser;
 
 if [ "$_webBrowser" != "" ]
 then
-    pkg install $_webBrowser
+    pkg install -y $_webBrowser
 fi
 
 read -p "Install baobab (GNOME) (disk usage scanner)? (yes/no): " _shouldInstallBaobab;
 
 if [ "$_shouldInstallBaobab" = "yes" ]
 then
-    pkg install baobab
+    pkg install -y baobab
 fi
 
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
 
 if [ "$_shouldInstallVBox" = "yes" ]
 then
-    pkg install virtualbox-ose virtualbox-ose-additions
+    pkg install -y virtualbox-ose virtualbox-ose-additions
 
     echo "" >> $_bootloaderConfFilePath
     echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_bootloaderConfFilePath
@@ -332,10 +349,8 @@ then
     echo "devfs_system_ruleset=\"system"\" >> $_etcRcConfFilePath
     echo "# End Added by FreeBSD-Setup script" >> $_etcRcConfFilePath
 
-    read -p "Specify user who can access VirtualBox: " _vboxAccessUserName;
-
-    pw groupmod vboxusers -m $_vboxAccessUserName
-    pw groupmod operator -m $_vboxAccessUserName
+    pw groupmod vboxusers -m $_user
+    pw groupmod operator -m $_user
 
     echo "" >> $_etcDevfsRulesFilePath
     echo "# Added by FreeBSD-Setup script (Install VirtualBox)" >> $_etcDevfsRulesFilePath
@@ -373,22 +388,17 @@ echo ""
 
 read -p "Disable screen saver? (yes/no): " _shouldDisableScreenSaver;
 
-if [ "$_shouldDisableScreenSaver" = "yes" ]
+if [ "$_shouldDisableScreenSaver" = "yes" ] && [ "$_user" != "" ]
 then
-    read -p "User for whom to disable (username - or - blank for none): " _disableScreenSaverUsername;
+    _xprofileFilePath=/home/$_user/.xprofile
 
-    if [ "$_disableScreenSaverUsername" != "" ]
-    then
-        _xprofileFilePath=/home/$_disableScreenSaverUsername/.xprofile
-
-        echo "" >> $_xprofileFilePath
-        echo "# Added by FreeBSD-Setup script (\"Setting up Screen Saver...\" phase)" >> $_xprofileFilePath
-        echo "xset s 0" >> $_xprofileFilePath
-        echo "xset s off" >> $_xprofileFilePath
-        echo "xset s noexpose" >> $_xprofileFilePath
-        echo "xset s noblank" >> $_xprofileFilePath
-        echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
-    fi
+    echo "" >> $_xprofileFilePath
+    echo "# Added by FreeBSD-Setup script (\"Setting up Screen Saver...\" phase)" >> $_xprofileFilePath
+    echo "xset s 0" >> $_xprofileFilePath
+    echo "xset s off" >> $_xprofileFilePath
+    echo "xset s noexpose" >> $_xprofileFilePath
+    echo "xset s noblank" >> $_xprofileFilePath
+    echo "# End Added by FreeBSD-Setup script" >> $_xprofileFilePath
 fi
 
 echo ""
@@ -411,7 +421,7 @@ then
     echo "Starting Linux service..."
     service linux start
 
-    pkg install linux_base-c7
+    pkg install -y linux_base-c7
 
     echo "" >> $_etcFstabFilePath;
     echo "# Added by FreeBSD-Setup script (\"Setting up Linux Binary Compatibility...\" phase)" >> $_etcFstabFilePath;
@@ -451,7 +461,7 @@ read -p "Enable filesystems in userspace support? (yes/no) " _fiuSupport;
 
 if [ "$_fiuSupport" = "yes" ]
 then
-	pkg install fusefs-lkl e2fsprogs fuse fuse-utils
+	pkg install -y fusefs-lkl e2fsprogs fuse fuse-utils
 	sysrc kld_list+="fusefs"
 fi
 
@@ -514,7 +524,7 @@ read -p "Enable webcams support? (yes/no) " _webcamsSupport;
 
 if [ "$_webcamsSupport" = "yes" ]
 then
-    pkg install webcamd
+    pkg install -y webcamd
     sysrc kld_list+="cuse4bsd"
 	sysrc webcamd_enable="YES"
 fi
@@ -523,7 +533,7 @@ read -p "Enable CUPS (printers) support? (yes/no) " _cupsSupport;
 
 if [ "$_cardReaderSupport" = "yes" ]
 then
-    pkg install cups
+    pkg install -y cups
     sysrc cupsd_enable="YES"
 fi
 
@@ -535,7 +545,7 @@ echo "##                                                            ##"
 echo "################################################################"
 echo ""
 
-cd /tmp
+cd /tmp || exit
 
 read -p "Install Ubuntu (Linux Binary Compatibility)? (yes/no) " _installUbuntu;
 
@@ -543,7 +553,7 @@ if [ "$_installUbuntu" = "yes" ]
 then
     git clone https://github.com/mrclksr/linux-browser-installer.git
 
-    cd linux-browser-installer
+    cd linux-browser-installer || exit
 
     ./linux-browser-installer chroot create
 

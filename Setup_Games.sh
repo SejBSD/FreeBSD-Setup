@@ -12,11 +12,11 @@ echo ""
 
 echo ""
 echo "## Installing minetest..."
-sudo pkg install minetest
+sudo pkg install -y minetest
 
 echo ""
 echo "## Installing wine..."
-sudo pkg install wine wine-gecko wine-mono
+sudo pkg install -y wine wine-gecko wine-mono
 
 echo ""
 read -p "Setup wine mesa drivers? (yes/no) " _setupWineMesa;
@@ -28,8 +28,8 @@ fi
 
 echo ""
 echo "## Installing wine-proton..."
-sudo pkg install wine-proton
+sudo pkg install -y wine-proton
 
 echo ""
 echo "## Installing winetricks..."
-sudo pkg install winetricks
+sudo pkg install -y winetricks

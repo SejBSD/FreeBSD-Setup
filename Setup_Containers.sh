@@ -12,42 +12,42 @@ echo ""
 
 echo ""
 echo "## Installing bastille... ##"
-sudo pkg install bastille
+sudo pkg install -y bastille
 
 echo ""
 echo "## Installing buildah... ##"
-sudo pkg install buildah
+sudo pkg install -y buildah
 
 echo ""
 echo "## Installing kubectl... ##"
-sudo pkg install kubectl
+sudo pkg install -y kubectl
 
 echo ""
 echo "## Installing helm... ##"
-sudo pkg install helm
+sudo pkg install -y helm
 
 echo ""
 echo "## Installing containerd..."
-sudo pkg install containerd
+sudo pkg install -y containerd
 
 echo ""
 echo "## Installing podman..."
-sudo pkg install podman
+sudo pkg install -y podman
 
 echo ""
 echo "## Installing minikube..."
-sudo pkg install minikube
+sudo pkg install -y minikube
 
 echo ""
 echo "## Installing vm-bhyve..."
-sudo pkg install vm-bhyve
+sudo pkg install -y vm-bhyve
 
 echo ""
 read -p "## Install VSCode? (yes/no) " _installVscode;
 
 if [ "$_installVscode" = "yes" ]
 then
-    sudo pkg install vscode
+    sudo pkg install -y vscode
 
     echo ""
     read -p "## Install extensions? (yes/no) " _installVscodeExtensions;
