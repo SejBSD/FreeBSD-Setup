@@ -330,6 +330,13 @@ then
     pkg install -y baobab
 fi
 
+read -p "Install Virtual Machine Manager (virt-manager)? (yes/no): " _virtManager;
+
+if [ "$_virtManager" = "yes" ]
+then
+    pkg install -y virt-manager
+fi
+
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
 
 if [ "$_shouldInstallVBox" = "yes" ]
