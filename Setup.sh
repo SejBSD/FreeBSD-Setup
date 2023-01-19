@@ -302,18 +302,18 @@ then
     fi
 fi
 
-read -p "Install terminal and file manager (GNOME)? (yes/no): " _shouldInstallGnomeCoreTools;
+read -p "Install terminal, file manager, baobab (disk usage scanner) (GNOME)? (yes/no): " _shouldInstallGnomeCoreTools;
 
 if [ "$_shouldInstallGnomeCoreTools" = "yes" ]
 then
-    pkg install -y gnome-terminal nautilus
+    pkg install -y gnome-terminal nautilus baobab
 fi
 
-read -p "Install common tools (vscode, flameshot, dconf-editor, inkscape)? (yes/no): " _shouldInstallCommonTools;
+read -p "Install common tools (vscode, flameshot, dconf-editor, inkscape, Virtual Machine Manager (virt-manager))? (yes/no): " _shouldInstallCommonTools;
 
 if [ "$_shouldInstallCommonTools" = "yes" ]
 then
-    pkg install -y vscode flameshot dconf-editor inkscape
+    pkg install -y vscode flameshot dconf-editor inkscape virt-manager
 fi
 
 read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser;
@@ -321,20 +321,6 @@ read -p "Install Web Browser (firefox/chromium)? (empty for none): " _webBrowser
 if [ "$_webBrowser" != "" ]
 then
     pkg install -y $_webBrowser
-fi
-
-read -p "Install baobab (GNOME) (disk usage scanner)? (yes/no): " _shouldInstallBaobab;
-
-if [ "$_shouldInstallBaobab" = "yes" ]
-then
-    pkg install -y baobab
-fi
-
-read -p "Install Virtual Machine Manager (virt-manager)? (yes/no): " _virtManager;
-
-if [ "$_virtManager" = "yes" ]
-then
-    pkg install -y virt-manager
 fi
 
 read -p "Install and configure VirtualBox? (yes/no): " _shouldInstallVBox;
