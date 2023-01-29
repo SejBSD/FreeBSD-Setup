@@ -11,9 +11,9 @@ echo "################################################################"
 echo ""
 
 echo ""
-read -p " ## Install VSCode with extensions? (yes/no) " _installVscode;
+read -p " ## Install VSCode with extensions? (yes/empty) " _installVscode;
 
-if [ "$_installVscode" = "yes" ]
+if [ "$_installVscode" != "" ]
 then
     sudo pkg install -y vscode
 

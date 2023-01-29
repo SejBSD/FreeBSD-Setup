@@ -43,16 +43,16 @@ echo "## Installing vm-bhyve..."
 sudo pkg install -y vm-bhyve
 
 echo ""
-read -p "## Install VSCode? (yes/no) " _installVscode;
+read -p "## Install VSCode? (yes/empty) " _installVscode;
 
-if [ "$_installVscode" = "yes" ]
+if [ "$_installVscode" != "" ]
 then
     sudo pkg install -y vscode
 
     echo ""
-    read -p "## Install extensions? (yes/no) " _installVscodeExtensions;
+    read -p "## Install extensions? (yes/empty) " _installVscodeExtensions;
 
-    if [ "$_installVscodeExtensions" = "yes" ]
+    if [ "$_installVscodeExtensions" != "" ]
     then
         sh ./Internal_Common_VSCode_Extensions.sh
 

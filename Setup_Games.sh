@@ -19,9 +19,9 @@ echo "## Installing wine..."
 sudo pkg install -y wine wine-gecko wine-mono
 
 echo ""
-read -p "Setup wine mesa drivers? (yes/no) " _setupWineMesa;
+read -p "Setup wine mesa drivers? (yes/empty) " _setupWineMesa;
 
-if [ "$_setupWineMesa" = "yes" ]
+if [ "$_setupWineMesa" != "" ]
 then
     /usr/local/share/wine/pkg32.sh install wine mesa-dri
 fi
